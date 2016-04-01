@@ -25,6 +25,15 @@ Where
 $CONTAINER_NAME should be replaced by some unique name
 $HOST_PORT can be replace by any host port that isn't already being used
 
+Note:
+
+Note that docker only pulls an image from the repo if there is no image on your host. So after the
+first time, if you want the latest version, you must pull it explicitly.
+
+```bash
+sudo docker pull gavinromigkochatredhatdotcom/hello-daemon
+```
+
 
 ### To build and test a development version of the image from GitHub
 

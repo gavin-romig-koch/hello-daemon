@@ -1,7 +1,7 @@
 
-### hello-daemon
+## hello-daemon
 
-## To run and use/test the image straight from DockerHub
+### To run and use/test the image straight from DockerHub
 
 To run the image from Dockerhub:
 
@@ -25,7 +25,7 @@ Or more generally:
     $HOST_PORT can be replace by any host port that isn't already being used
 
 
-## To build and test a development version of the image from GitHub
+### To build and test a development version of the image from GitHub
 
 Within a cloned version of Git Repo:
 

@@ -7,6 +7,7 @@ REPONAME=gavinromigkochatredhatdotcom
 VERSION=devel
 
 IMAGEIDCMD=sudo docker images -q --no-trunc $(REPONAME)/$(IMAGENAME):$(VERSION)
+HOST_PORT_CMD=sudo docker port $$(cat containeridfile) | grep "^8888" | sed -e '/^8888/s/^.* -> \(.*\)$$/\1/'
 
 # hello-daemon serves itself from the container port 8888
 # but you must contact it through a host port.  You can use
@@ -17,13 +18,9 @@ IMAGEIDCMD=sudo docker images -q --no-trunc $(REPONAME)/$(IMAGENAME):$(VERSION)
 # again any host port that isn't already being used for some other
 # server is fine.
 #
-# the '-p $(HOSTPORT):8888' below makes the connection from the
-# choosen host port to the container port.
-#
-# if you want to change the container port, change it in this file
-# and in the Dockerfile
+# if you want to change the container port,
+#    change it in this file and in the Dockerfile
 
-HOSTPORT=8888
 CONTAINERPORT=8888
 
 CONTAINERNAME=hello-daemon-devel
@@ -36,10 +33,10 @@ imageidfile: Dockerfile
 	echo "$$($(IMAGEIDCMD))" >imageidfile
 
 run:
-	sudo docker run --cidfile=containeridfile -d --name $(CONTAINERNAME) -p $(HOSTPORT):$(CONTAINERPORT) $(REPONAME)/$(IMAGENAME):$(VERSION)
+	sudo docker run --cidfile=containeridfile -d --name $(CONTAINERNAME) -p $(CONTAINERPORT) $(REPONAME)/$(IMAGENAME):$(VERSION)
 
 test:
-	curl localhost:$(HOSTPORT)
+	curl $$($(HOST_PORT_CMD))
 
 stop:
 	if [ -e containeridfile ]; then \
